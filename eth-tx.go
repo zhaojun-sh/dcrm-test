@@ -64,7 +64,7 @@ func main() {
 		fmt.Println("signature create error:")
 		panic(signatureErr)
 	}
-	fmt.Printf("\nsig: \n hash = %s\n", tx.Hash().String())
+	fmt.Printf("\nsig: \n hash = %s\n", signer.Hash(tx).String())
 	fmt.Printf("\n Sign = %s\n", hex.EncodeToString(signature))
 
 	sigTx, signErr := tx.WithSignature(signer, signature)
