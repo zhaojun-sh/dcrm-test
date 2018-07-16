@@ -5,7 +5,6 @@ import (
 	"encoding/hex"
 	"fmt"
 	"github.com/ethereum/go-ethereum/accounts"
-	//	"github.com/ethereum/go-ethereum/accounts/keystore"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/crypto"
@@ -79,7 +78,7 @@ func main() {
 	*/
 
 	//获取交易hash值，用于DCRM分布式签名输入
-	fmt.Printf("\nTXhash = %s\n", tx.Hash().String())
+	fmt.Printf("\nTXhash = %s\n", signer.Hash(tx).String())
 
 	//分布式签名后的结果
 	fmt.Printf("\nsig: \nR = %s\n", "2A0B3F6D9F9DBACCAA093F1DCFD8AB3F08A532ACFA847FE2BC6D9B17ABBAA39E")

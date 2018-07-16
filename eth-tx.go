@@ -35,20 +35,13 @@ func main() {
 
 	// 建立交易 可以通过mew设置交易参数 https://www.myetherwallet.com/#offline-transaction
 	tx := types.NewTransaction(
-		0x02,                           // nonce
+		0x09,                           // nonce
 		toAccDef.Address,               // to address
 		big.NewInt(0x016345785d8a0000), // amount
 		0x04baf0,                       // gasLimit
 		big.NewInt(41000000000),        // gasPrice
 		[]byte(`data`))                 // data
 
-	// 得到DCRM地址
-	//pKey := "8d4c8eb0f07021ccb97dbf6714287dd119de14ba0e4c86434ae134f71343a565af989766080c392f38087d5438987d1fb2b31f50c4a47e9f232ccce5735355af"
-	//pKey := "ed3749c8ee0405ed6cdb84f92c1b33a1ea685016dbacbdbf503acf8a8cbd2eb8afbe4b9fce6a975f2b34b77b556a09c924c7e3cf0ef2b2af600fa85c633c00da"
-	//address := crypto.PubkeyToAddress(publicKey).Hex()
-	//address := common.BytesToAddress(crypto.Keccak256([]byte(pKey)[12:])).Hex()
-	//fmt.Println("\nDCRM publicKey:\n    ", pKey)
-	//fmt.Println("\nDCRM address:\n    ", address)
 
 	// 解析私钥文件
 	keyWrapper, keyErr := keystore.DecryptKey([]byte(KEYFILE), SIGN_PASSPHRASE)
@@ -66,7 +59,7 @@ func main() {
 	signer := types.NewEIP155Signer(chainID)
 
 	//用私钥签署交易签名
-	signature, signatureErr := crypto.Sign(tx.Hash().Bytes(), keyWrapper.PrivateKey)
+	signature, signatureErr := crypto.Sign(signer.Hash(tx).Bytes(), keyWrapper.PrivateKey)
 	if signatureErr != nil {
 		fmt.Println("signature create error:")
 		panic(signatureErr)
@@ -79,7 +72,7 @@ func main() {
 		fmt.Println("signer with signature error:")
 		panic(signErr)
 	}
-	fmt.Printf("\nTX with sig:\n RAWSign = %s\n", sigTx)
+	fmt.Printf("\nTX with sig:\n RAWSign = %+v\n", sigTx)
 	/*
 		sigTx, sigErr := types.SignTx(tx, signer, keyWrapper.PrivateKey)
 		if sigErr != nil {
